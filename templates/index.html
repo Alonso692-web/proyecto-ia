@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Poemas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        #prompt {
+            width: 80%;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        #generate-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #generate-btn:hover{
+            cursor: pointer;
+        }
+        
+        #poem {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generador de Poemas</h1>
+    <textarea id="prompt" placeholder="Escribe un tema para tu poema..."></textarea><br>
+    <button id="generate-btn">Generar Poema</button>
+    <div id="poem"></div>
+
+    <script>
+        document.getElementById('generate-btn').addEventListener('click', async () => {
+            const prompt = document.getElementById('prompt').value;
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt })
+            });
+            const data = await response.json();
+            document.getElementById('poem').innerText = data.poem;
+        });
+    </script>
+</body>
+</html>
